@@ -1,0 +1,8 @@
+torch
+transformers
+fastapi
+uvicorn
+pydantic
+pymongo
+sentence-transformers
+python-dotenv
