@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from src.search import collection
-from src.search import vector_search, ask
+from search import collection
+from search import vector_search, ask
 import json
 
 app = FastAPI()
