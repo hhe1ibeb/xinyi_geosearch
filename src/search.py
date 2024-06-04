@@ -1,7 +1,8 @@
-from embedding import get_embedding
+from src.embedding import get_embedding
 import pymongo
 import os
 from dotenv import load_dotenv
+from langdetect import detect
 
 load_dotenv()
 CONNECTION_STRING = os.getenv("MONGODB_URI")
@@ -9,6 +10,9 @@ CONNECTION_STRING = os.getenv("MONGODB_URI")
 mongo_client = pymongo.MongoClient(CONNECTION_STRING)
 db = mongo_client["xinyi_geodata"]
 collection = db["collection_1"]
+
+def detect_language(text):
+    return detect(text)
 
 def vector_search(user_query, collection, lang):
     """
@@ -29,14 +33,19 @@ def vector_search(user_query, collection, lang):
         return "Invalid query or embedding generation failed."
     
     path = ""
-    if lang == "zh": path = "embedding-zh"
-    else: path = "embedding-en"
+    index = ""
+    if lang == "zh":
+        path = "embedding-zh"
+        index = "vector_index_zh"
+    else: 
+        path = "embedding-en"
+        index = "vector_index"
 
     # Define the vector search pipeline
     pipeline = [
         {
             "$vectorSearch": {
-                "index": "vector_index",
+                "index": index,
                 "queryVector": query_embedding,
                 "path": path,
                 "numCandidates": 150,  # Number of candidate matches to consider
@@ -49,7 +58,7 @@ def vector_search(user_query, collection, lang):
                 "lat": 1,  # Include the lat field
                 "lon": 1,  # Include the lon field
                 "description": 1,  # Include the description field
-                "description-mandarin": 1,
+                "descriptions-mandarin": 1,
                 "score": {"$meta": "vectorSearchScore"},  # Include the search score
             }
         },
@@ -65,7 +74,7 @@ def get_search_result(query, collection, lang):
 
     search_result = ""
     des = ""
-    if lang == "zh": des = "description"
+    if lang != "zh": des = "description"
     else: des = "descriptions-mandarin"
     for result in get_knowledge:
         search_result += f"Lat: {result.get('lat', 'N/A')}, Lon: {result.get('lon', 'N/A')}, Description: {result.get(des, 'N/A')}\n"
