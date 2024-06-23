@@ -6,3 +6,4 @@ pydantic
 pymongo
 sentence-transformers
 python-dotenv
+langdetect
