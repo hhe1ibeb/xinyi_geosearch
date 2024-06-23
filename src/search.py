@@ -70,7 +70,7 @@ def vector_search(user_query, collection, lang):
 
 def get_search_result(query, collection, lang):
 
-    get_knowledge = vector_search(query, collection)
+    get_knowledge = vector_search(query, collection, lang)
 
     search_result = ""
     des = ""
@@ -80,8 +80,3 @@ def get_search_result(query, collection, lang):
         search_result += f"Lat: {result.get('lat', 'N/A')}, Lon: {result.get('lon', 'N/A')}, Description: {result.get(des, 'N/A')}\n"
 
     return search_result
-
-def ask(query):
-    source_information = get_search_result(query, collection)
-    combined_information = f"Query: {query}\nAccording to the results, suggest the best place in response to the query:\n{source_information}."    
-    return combined_information

@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from src.search import collection
-from src.search import detect_language, vector_search, ask
+from src.search import collection, detect_language, vector_search
+from src.chat import answer
 import json
 
 app = FastAPI()
@@ -31,7 +31,7 @@ async def get_results(query: str):
 
 @app.get("/ask")
 async def ask(query: str):
-    result = ask(query)
+    result = answer(query, detect_language(query))
     if result is not None:
         return result
     raise HTTPException(status_code=404, detail="Item not found")
