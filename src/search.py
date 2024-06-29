@@ -54,10 +54,13 @@ def vector_search(user_query, collection, lang):
         },
         {
             "$project": {
-                "_id": 0,  # Exclude the _id field
-                "lat": 1,  # Include the lat field
-                "lon": 1,  # Include the lon field
-                "description": 1,  # Include the description field
+                "_id": 0,
+                "lat": 1,
+                "lon": 1,
+                "description": 1,
+                "fwd": 1,
+                "l": 1,
+                "r": 1,
                 "descriptions-mandarin": 1,
                 "score": {"$meta": "vectorSearchScore"},  # Include the search score
             }

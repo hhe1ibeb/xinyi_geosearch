@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RAG Evaluation</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>RAG Evaluation</h1>
+        <form id="query-form" class="form">
+            <label for="query">Enter your query:</label>
+            <input type="text" id="query" name="query" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <div id="results-container" style="display: none;">
+            <h2>Search Results</h2>
+            <form id="results-form" class="form">
+                <div id="results" class="results"></div>
+                <button type="submit">Submit Choice</button>
+            </form>
+        </div>
+    </div>
+    <script src="/static/scripts.js"></script>
+</body>
+</html>
