@@ -7,3 +7,4 @@ pymongo
 sentence-transformers
 python-dotenv
 langdetect
+motor
